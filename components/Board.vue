@@ -70,7 +70,16 @@ const isAltKeyDown = useKeyModifier('Alt')
             item-key="id"
           >
             <template #item="{ element: task }: { element: Task }">
-              <div><Task :task="task" class="task" /></div>
+              <div>
+                <Task
+                  :task="task"
+                  @delete="
+                    column.tasks = column.tasks.filter(
+                      (task) => task.id !== $event
+                    )
+                  "
+                />
+              </div>
             </template>
           </draggable>
 
@@ -82,21 +91,3 @@ const isAltKeyDown = useKeyModifier('Alt')
     </draggable>
   </div>
 </template>
-
-<style>
-/* Class added to an element when it's being dragged. */
-.sortable-drag .task {
-  transform: rotate(5deg);
-}
-
-/* Class added to the element underneath the element 
-* being dragged to style the spot it can be dropped it in.
-*/
-.sortable-ghost .task {
-  position: relative;
-}
-.sortable-ghost .task::after {
-  content: '';
-  @apply absolute top-0 bottom-0 right-0 left-0 bg-slate-300 rounded;
-}
-</style>
