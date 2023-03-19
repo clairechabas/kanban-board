@@ -1,33 +1,26 @@
-# Nuxt 3 Minimal Starter
+# 🖲️ Kanban Board
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Kanban board with drag & drop tasks
 
-## Setup
+## 🚀 How To Start
 
-Make sure to install the dependencies:
+1. Install the dependencies (this project is using npm):
 
 ```bash
-# yarn
-yarn install
-
 # npm
 npm install
-
-# pnpm
-pnpm install
 ```
 
-## Development Server
 
-Start the development server on http://localhost:3000
+2. Start the development server (http://localhost:3000)
 
 ```bash
 npm run dev
 ```
 
-## Production
+## 📦 Production
 
-Build the application for production:
+To build the application for production:
 
 ```bash
 npm run build
@@ -38,5 +31,3 @@ Locally preview production build:
 ```bash
 npm run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
