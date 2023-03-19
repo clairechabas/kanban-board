@@ -3,7 +3,7 @@ import type { Column, Task } from '~/types'
 import draggable from 'vuedraggable'
 import { nanoid } from 'nanoid'
 
-let columns = ref<Column[]>([
+const columns = useLocalStorage<Column[]>('kanbanBoard', [
   {
     id: nanoid(),
     title: 'Backlog',
