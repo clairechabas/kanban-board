@@ -3,7 +3,7 @@ import type { Column, Task } from '~/types'
 import draggable from 'vuedraggable'
 import { nanoid } from 'nanoid'
 
-const columns = ref<Column[]>([
+let columns = ref<Column[]>([
   {
     id: nanoid(),
     title: 'Backlog',
@@ -43,23 +43,61 @@ const columns = ref<Column[]>([
 ])
 
 const isAltKeyDown = useKeyModifier('Alt')
+
+function blurElement(event: KeyboardEvent) {
+  const element = event.target as HTMLInputElement
+  element.blur()
+}
+
+function createColumn() {
+  const column: Column = {
+    id: nanoid(),
+    title: '',
+    tasks: [],
+  }
+
+  // Add new column in columns array
+  columns.value.push(column)
+
+  // Wait for Vue to have finished updating the DOM
+  nextTick(() => {
+    // Focus the new column's title input
+    const newColumnInputTitle = document.querySelector(
+      '.column:last-of-type .title-input-column'
+    ) as HTMLInputElement
+
+    newColumnInputTitle.focus()
+  })
+}
+
+function deleteColumn(column: Column) {
+  column.title === ''
+    ? (columns.value = columns.value.filter((col) => col.id !== column.id))
+    : null
+}
 </script>
 
 <template>
-  <div>
+  <div class="flex items-start overflow-x-auto gap-4">
     <draggable
       v-model="columns"
       group="columns"
       :animation="150"
       handle=".drag-handle"
       item-key="id"
-      class="flex gap-4 overflow-x-auto items-start"
+      class="flex gap-4 items-start"
     >
       <template #item="{ element: column }: { element: Column }">
-        <div class="bg-gray-200 p-5 rounded min-w-[250px]">
+        <div class="column bg-gray-200 p-5 rounded min-w-[250px]">
           <header class="font-bold mb-4">
             <DragHandle />
-            {{ column.title }}
+            <input
+              class="title-input-column bg-transparent focus:bg-white rounded px-1 w-4/5"
+              type="text"
+              @keyup.enter="blurElement($event)"
+              @keydown.backspace="deleteColumn(column)"
+              v-model="column.title"
+            />
           </header>
 
           <draggable
@@ -89,5 +127,12 @@ const isAltKeyDown = useKeyModifier('Alt')
         </div>
       </template>
     </draggable>
+
+    <button
+      @click="createColumn"
+      class="bg-gray-200 whitespace-nowrap p-2 rounded opacity-50"
+    >
+      + Add Another Column
+    </button>
   </div>
 </template>
