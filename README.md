@@ -9,7 +9,6 @@ Kanban board with drag & drop tasks
 1. Install the dependencies (this project is using npm):
 
 ```bash
-# npm
 npm install
 ```
 
